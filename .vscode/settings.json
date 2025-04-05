@@ -3,7 +3,15 @@
         "api.h": "c",
         "unistd.h": "c",
         "stdio.h": "c",
-        "in.h": "c"
+        "in.h": "c",
+        "array": "c",
+        "string_view": "c",
+        "format": "c",
+        "initializer_list": "c",
+        "ranges": "c",
+        "span": "c",
+        "cstdint": "c",
+        "ioctl.h": "c"
     },
     "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }
