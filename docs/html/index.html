@@ -103,11 +103,12 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__2home_2tlr_2OSProgPrj_2readme"></a></p>
-<p>This is a project requiered from OS programming labs as final exam</p>
+<p>This is a project requiered from OS programming labs as final exam <br  />
+ All code is self explaining</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Setup</h1>
 <ul>
-<li>Make sure to have all the dependencies installed Debian : <div class="fragment"><div class="line">sudo apt install libgpiod-dev gpiod gcc make</div>
+<li>Make sure to have all the dependencies installed Debian : <div class="fragment"><div class="line">sudo apt install libgpiod-dev gpiod gcc make git</div>
 </div><!-- fragment --></li>
 <li>Enable UART and I2C <div class="fragment"><div class="line">raspi-config</div>
 </div><!-- fragment --></li>
@@ -118,11 +119,19 @@ Usage</h1>
 <p>Clone the repo : </p><div class="fragment"><div class="line">git clone https://github.com/The-Last-Resort-FR/osprj-uni.git</div>
 <div class="line">cd osprj-uni</div>
 <div class="line">mkdir bin obj</div>
-</div><!-- fragment --><p>To change the default temperature and humidity alert limits as well as the interval at which the sensor gets read change the defines in <a class="el" href="sensor_8h.html" title="Header of the sensor related functions.">sensor.h</a> Build : </p><div class="fragment"><div class="line">make</div>
+</div><!-- fragment --><p>To change the default temperature and humidity alert limits as well as the interval at which the sensor gets read change the defines in <a class="el" href="sensor_8h.html" title="Header of the sensor related functions.">sensor.h</a> <br  />
+ Build : </p><div class="fragment"><div class="line">make</div>
 </div><!-- fragment --><p> Run the app : </p><div class="fragment"><div class="line">./bin/osprj.run</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
 Documentation</h1>
-<p>The documentation is available in docs/html/index.html </p>
+<p>The documentation is available in docs/html/index.html</p>
+<h1><a class="anchor" id="autotoc_md4"></a>
+Fixes</h1>
+<ul>
+<li>It might not close on ctrl+c after the 30 seconds because it waits for another API request, making a request to the API should unstuck it</li>
+<li>bad json format if only 1 data is available</li>
+<li>It was working in class but I couldn't test the aquisition of the sensor in the final version (don't have this one home) </li>
+</ul>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->

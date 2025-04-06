@@ -36,6 +36,7 @@ var NAVTREEINDEX0 =
 "index.html#autotoc_md1":[0,0],
 "index.html#autotoc_md2":[0,1],
 "index.html#autotoc_md3":[0,2],
+"index.html#autotoc_md4":[0,3],
 "pages.html":[],
 "sensor_8c.html":[2,0,1,2],
 "sensor_8c.html#a1fc8ba0b0211af45f8340c4cd4816f1e":[2,0,1,2,5],
