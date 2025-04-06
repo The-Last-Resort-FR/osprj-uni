@@ -22,6 +22,7 @@ extern GlobalData gd;
  */
 void* handleRequest(void* args) {
     int* new_socket = (int*)args;
+    uint8_t shouldFree = false;
     char buffer[MAX] = {0};
     read(*new_socket, buffer, MAX);
     
@@ -40,13 +41,14 @@ void* handleRequest(void* args) {
     } else if (strncmp(buffer, "GET /data", 9) == 0) {
         char* dataResponse = makeJsonReply();
         response = dataResponse;
+        shouldFree = 1;
     } else {
         response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\nNot Found";
     }
     if(response =! NULL)
         write(*new_socket, response, strlen(response));
 
-    if (strncmp(buffer, "GET /data", 9) == 0)
+    if (shouldFree)
         free((void*)response);
 
     close(*new_socket);
