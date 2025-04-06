@@ -32,20 +32,20 @@ void* setLedPin(void* args) {
 
     chip = gpiod_chip_open(GPIO_CHIP);
     if (!chip) {
-        syslog(LOG_ERR, "Failed to open GPIO chip");
+        syslog(LOG_ERR, "Failed to open GPIO chip\n");
         return NULL;
     }
 
     line = gpiod_chip_get_line(chip, *pin);
     if (!line) {
-        syslog(LOG_ERR, "Failed to get GPIO line");
+        syslog(LOG_ERR, "Failed to get GPIO line\n");
         gpiod_chip_close(chip);
         return NULL;
     }
 
     check = gpiod_line_request_output(line, "SetPin", 0);
     if (check < 0) {
-        syslog(LOG_ERR, "Failed to request line as output");
+        syslog(LOG_ERR, "Failed to request line as output\n");
         gpiod_chip_close(chip);
         return NULL;
     }
@@ -53,7 +53,7 @@ void* setLedPin(void* args) {
     while(!gd.shouldStop) {
         check = gpiod_line_set_value(line, gd.ledState ? 0 : 1);
         if (check < 0) {
-            syslog(LOG_ERR, "Failed to set line value");
+            syslog(LOG_ERR, "Failed to set line value\n");
         }
         sleep(2);
     }
@@ -73,7 +73,7 @@ void* setLedPin(void* args) {
 int initUART(const char *device, speed_t baudrate) {
     uart_fd = open(device, O_RDWR | O_NOCTTY | O_NDELAY);
     if (uart_fd == -1) {
-        syslog(LOG_ERR, "Unable to open UART");
+        syslog(LOG_ERR, "Unable to open UART\n");
         return -1;
     }
 

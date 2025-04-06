@@ -97,7 +97,6 @@ void initSensor(const char* bus) {
  * @return float 
  */
 float readTemp() {
-	return 24.0f;
     uint8_t cmd = 0xE3;
 	if (write(i2cFile, &cmd, sizeof(cmd)) != sizeof(cmd)) {
 		syslog(LOG_ERR, "failed to send command\n");
@@ -124,7 +123,6 @@ float readTemp() {
  * @return float 
  */
 float readHum() {
-	return 50.0f;
     uint8_t cmd = 0xE5;
 	if (write(i2cFile, &cmd, sizeof(cmd)) != sizeof(cmd)) {
 		syslog(LOG_ERR, "failed to send command\n");

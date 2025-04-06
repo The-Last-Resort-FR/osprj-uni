@@ -85,7 +85,7 @@ void srv(uint16_t port) {
     len = sizeof(cli); 
 
     pthread_t requestHandlerThread;
-
+    printf("API ready to take requests\n");
     while (!gd.shouldStop) {
         int* connfd = (int*)malloc(sizeof(int));
         *connfd = accept(sockfd, (struct sockaddr*)&cli, (socklen_t * restrict)&len); 

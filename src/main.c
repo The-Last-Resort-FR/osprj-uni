@@ -34,13 +34,15 @@ int main(void) {
 
     signal(SIGINT, signalhandler);
 
-    if(!initUART("/dev/serial0", B115200)) {
-        printf("couldn't open serial port");
+    if(!initUART("/dev/tty0", B115200)) {
+        printf("couldn't open serial port\n");
         return -1;
     }
 
     pthread_create(&sensorThread, NULL, sensorDataLogger, NULL);
+    printf("Sensor dat logger thread created\n");
     pthread_create(&ledThread, NULL, setLedPin, &pin);
+    printf("Led pin state watcher thread created\n");
     srv(SERVER_PORT);
     return 0;
 }

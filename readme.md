@@ -7,7 +7,7 @@ This is a project requiered from OS programming labs as final exam
 - Make sure to have all the dependencies installed
 Debian :
 ```bash
-sudo apt install libgpiod-dev gpiod gcc make
+sudo apt install libgpiod-dev gpiod gcc make git
 ```
 
 - Enable UART and I2C
@@ -26,7 +26,7 @@ cd osprj-uni
 mkdir bin obj
 ```
 
-To change the default temperature and humidity alert limits as well as the interval at which the sensor gets read change the defines in sensor.h
+To change the default temperature and humidity alert limits as well as the interval at which the sensor gets read change the defines in sensor.h  
 Build :
 ```bash
 make
