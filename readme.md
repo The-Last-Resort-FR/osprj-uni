@@ -24,7 +24,6 @@ Clone the repo :
 ```bash
 git clone https://github.com/The-Last-Resort-FR/osprj-uni.git
 cd osprj-uni
-mkdir bin obj
 ```
 
 To change the default temperature and humidity alert limits as well as the interval at which the sensor gets read change the defines in sensor.h  
