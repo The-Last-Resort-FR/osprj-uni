@@ -44,7 +44,8 @@ void* handleRequest(void* args) {
         response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\nNot Found";
     }
     write(*new_socket, response, strlen(response));
-    free(response);
+    if (strncmp(buffer, "GET /data", 9) == 0)
+        free(response);
 
     close(*new_socket);
     pthread_exit(0);
