@@ -43,8 +43,9 @@ void* handleRequest(void* args) {
     } else {
         response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\nNot Found";
     }
-    write(*new_socket, response, strlen(response));
-    
+    if(response =! NULL)
+        write(*new_socket, response, strlen(response));
+
     if (strncmp(buffer, "GET /data", 9) == 0)
         free((void*)response);
 
@@ -95,6 +96,7 @@ void srv(uint16_t port) {
             exit(0); 
         } 
         pthread_create(&requestHandlerThread, NULL, handleRequest, connfd);
+        pthread_detach(requestHandlerThread);
     }
 
     close(sockfd);
@@ -107,7 +109,8 @@ void srv(uint16_t port) {
  * @return char* has to be freed by the caller
  */
 char* makeJsonReply() {
-    // printf("starting concate, allocating : %ld bytes\n", sizeof(char)*gd.data.size*100);
+    if((sizeof(char)*gd.data.size*100) == 0 ) return NULL;
+    printf("starting concate, allocating : %ld bytes\n", sizeof(char)*gd.data.size*100);
     char* reply = (char*)malloc(sizeof(char)*gd.data.size*100);
     char tmp[100];
     sprintf(reply, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n[");
