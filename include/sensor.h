@@ -10,6 +10,8 @@
 #include <time.h>
 #include <stdlib.h>
 
+#define AQUISITION_INTERVAL 1
+
 typedef struct SensorData {
     time_t timestamp;
     float humidity;

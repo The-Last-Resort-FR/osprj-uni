@@ -3,7 +3,7 @@
 
 extern GlobalData gd;
 
-void* handle_request(void* args) {
+void* handleRequest(void* args) {
     int* new_socket = (int*)args;
     char buffer[MAX] = {0};
     read(*new_socket, buffer, MAX);
@@ -26,44 +26,12 @@ void* handle_request(void* args) {
     } else {
         response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\nNot Found";
     }
-
-    //{"status": "off", "value": 42}
-
     write(*new_socket, response, strlen(response));
 
     close(*new_socket);
     free(new_socket);
     pthread_exit(0);
 }
-
-// void func(int connfd) { 
-//     char buff[MAX]; 
-//     int n; 
-//     // infinite loop for chat 
-//     for (;;) { 
-//         bzero(buff, MAX); 
-  
-//         // read the message from client and copy it in buffer 
-//         read(connfd, buff, sizeof(buff)); 
-//         // print buffer which contains the client contents 
-//         printf("From client: %s\t To client : ", buff); 
-//         bzero(buff, MAX); 
-//         n = 0; 
-//         // copy server message in the buffer 
-//         while ((buff[n++] = getchar()) != '\n') 
-//             ; 
-  
-//         // and send that buffer to client 
-//         write(connfd, buff, sizeof(buff)); 
-  
-//         // if msg contains "Exit" then server exit and chat ended. 
-//         if (strncmp("exit", buff, 4) == 0) { 
-//             printf("Server Exit...\n"); 
-//             break; 
-//         } 
-//     }
-//     close(connfd);
-// } 
 
 void srv(uint16_t port) {
     int sockfd, len;
@@ -94,21 +62,21 @@ void srv(uint16_t port) {
 
     pthread_t requestHandlerThread;
 
-    while (1) {
+    while (!gd.shouldStop) {
         int* connfd = (int*)malloc(sizeof(int));
         *connfd = accept(sockfd, (struct sockaddr*)&cli, (socklen_t * restrict)&len); 
         if (*connfd < 0) { 
             printf("server accept failed...\n"); 
             exit(0); 
         } 
-        pthread_create(&requestHandlerThread, NULL, handle_request, connfd);
+        pthread_create(&requestHandlerThread, NULL, handleRequest, connfd);
     }
 
     close(sockfd);
 }
 
 
-// cringe json moment "{\"time\": 1743857962, \"Temperature\": 24.0, \"humidity\": 50.0}"
+// cringe json moment [{\"time\": 1743857962, \"Temperature\": 24.0, \"humidity\": 50.0}]
 char* makeJsonReply() {
     printf("starting concate, allocating : %ld bytes\n", sizeof(char)*gd.data.size*100);
     char* reply = (char*)malloc(sizeof(char)*gd.data.size*100);

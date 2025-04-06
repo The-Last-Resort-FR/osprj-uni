@@ -13,6 +13,6 @@
 
 #define MAX 1024
 
-void* handle_request(void* args);
+void* handleRequest(void* args);
 void srv(uint16_t port);
 char* makeJsonReply();

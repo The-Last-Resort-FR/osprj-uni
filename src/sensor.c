@@ -1,6 +1,7 @@
 #include <sensor.h>
 #include <errno.h>
 #include <string.h>
+#include <gpio.h>
 
 static int i2cFile = 0;
 extern GlobalData gd;
@@ -20,7 +21,9 @@ void add(time_t _timestamp, float _humidity, float _temperature) {
 	gd.data.dataArray[gd.data.size]->humidity = _humidity;
 	gd.data.dataArray[gd.data.size]->temperature = _temperature;
 	gd.data.size++;
-
+	const char uartLog[64];
+	sprintf(uartLog, "sensor data recorded {\n\ttime: %ld\n\thumidity: %.1f\n\ttemperature: %.1f\n}\n", _timestamp, _humidity, _temperature);
+	uartSendString(uartLog);
 }
 
 SensorData* get(uint32_t index) {
@@ -109,14 +112,12 @@ void deinitSensor() {
 }
 
 void* sensorDataLogger(void* args) {
-	args = NULL;
 	initSensor("/dev/i2c-1");
 	while (!gd.shouldStop)
 	{
 		add(time(NULL), readHum(), readTemp());
-		printf("data saved\n");
-		sleep(1);
+		sleep(AQUISITION_INTERVAL);
 	}
 	deinitSensor();
-	return NULL;
+	return args;
 }
