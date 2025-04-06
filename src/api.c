@@ -110,29 +110,11 @@ void srv(uint16_t port) {
  * 
  * @return char* has to be freed by the caller
  */
-// char* makeJsonReply() {
-//     if((sizeof(char)*gd.data.size*100) == 0 ) return NULL;
-//     printf("starting concate, allocating : %ld bytes\n", sizeof(char)*gd.data.size*100);
-//     char* reply = (char*)malloc(sizeof(char)*gd.data.size*100+1);
-//     char tmp[100];
-//     sprintf(reply, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n[");
-//     // printf("first line\n");
-//     for (size_t i = 0; i < gd.data.size; i++)
-//     {
-//         if(i == 0) sprintf(tmp, "{\"time\": %lu, \"temperature\": %.1f, \"humidity\": %.1f},", gd.data.dataArray[i]->timestamp, gd.data.dataArray[i]->temperature, gd.data.dataArray[i]->humidity);
-//         else if(i == gd.data.size-1) sprintf(tmp, "\n\r{\"time\": %lu, \"temperature\": %.1f, \"humidity\": %.1f}", gd.data.dataArray[i]->timestamp, gd.data.dataArray[i]->temperature, gd.data.dataArray[i]->humidity);
-//         else sprintf(tmp, "\n\r{\"time\": %lu, \"temperature\": %.1f, \"humidity\": %.1f},", gd.data.dataArray[i]->timestamp, gd.data.dataArray[i]->temperature, gd.data.dataArray[i]->humidity);
-//         strcat(reply, tmp);
-//     }
-//     strcat(reply, "]\n\r");
-//     return reply;
-// }
-
 char* makeJsonReply() {
     if (gd.data.size == 0) return NULL;
 
-    size_t estimated_size = 100 + gd.data.size * 150;
-    char* reply = malloc(estimated_size);
+    size_t estimatedSize = 100 + gd.data.size * 150;
+    char* reply = malloc(estimatedSize);
     if (!reply) return NULL;
 
     char* cursor = reply;
