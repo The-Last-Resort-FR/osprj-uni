@@ -23,7 +23,7 @@
 #include <sensor.h>
 #include <syslog.h>
 
-#define MAX 1024
+#define MAX 2048
 
 void* handleRequest(void* args);
 void srv(uint16_t port);

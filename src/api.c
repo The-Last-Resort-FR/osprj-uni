@@ -45,7 +45,7 @@ void* handleRequest(void* args) {
     }
     write(*new_socket, response, strlen(response));
     if (strncmp(buffer, "GET /data", 9) == 0)
-        free(response);
+        free((void*)response);
 
     close(*new_socket);
     pthread_exit(0);
