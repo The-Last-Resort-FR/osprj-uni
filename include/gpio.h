@@ -1,3 +1,14 @@
+/**
+ * @file gpio.h
+ * @author TLR
+ * @brief Header of the gpio related functions
+ * @version 0.1
+ * @date 2025-04-06
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #pragma once
 
 #include <gpiod.h>
@@ -7,6 +18,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <string.h>
+#include <syslog.h>
 
 #define GPIO_CHIP "/dev/gpiochip0"
 

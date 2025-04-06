@@ -6,14 +6,25 @@
 #define GPIO5 5
 #define SERVER_PORT 8080
 
+/// @brief instance of the global data for this program
 volatile GlobalData gd; //shameless global data
 
+/**
+ * @brief Signal handler for ctrl + c
+ * 
+ */
 void signalhandler() {
     gd.shouldStop = true;
     closeUART();
-    sleep(5);
+    printf("Stop requested, shutting down in 30 sec...\n"); // makes sure all the workers had time to see shouldStop, mainly tied to AQUISITION_INTERVAL
+    sleep(30);
 }
 
+/**
+ * @brief Entry point
+ * 
+ * @return int 
+ */
 int main(void) {
     gd.ledState = 0;
     gd.shouldStop = 0;

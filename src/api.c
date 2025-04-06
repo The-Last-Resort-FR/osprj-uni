@@ -1,8 +1,25 @@
+/**
+ * @file api.c
+ * @author TLR
+ * @brief Very basic api implementation
+ * @version 0.1
+ * @date 2025-04-06
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include <api.h>
 
-
+/// @brief global data from main.c
 extern GlobalData gd;
 
+/**
+ * @brief Request handler meant to be used as a thread
+ * 
+ * @param args Socket handle
+ * @return void* 
+ */
 void* handleRequest(void* args) {
     int* new_socket = (int*)args;
     char buffer[MAX] = {0};
@@ -11,7 +28,7 @@ void* handleRequest(void* args) {
     printf("Request:\n%s\n", buffer);
     
     // Determine the route
-    const char *response;
+    char *response;
     if (strncmp(buffer, "GET / ", 6) == 0) {
         response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nWelcome to the C API server!";
     } else if (strncmp(buffer, "GET /on", 7) == 0) {
@@ -27,19 +44,26 @@ void* handleRequest(void* args) {
         response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\nNot Found";
     }
     write(*new_socket, response, strlen(response));
+    free(response);
 
     close(*new_socket);
     free(new_socket);
     pthread_exit(0);
+    return NULL;
 }
 
+/**
+ * @brief Setup the socket and send each accepts to a handleRequest thread
+ * 
+ * @param port Port on which the socket will be bound to
+ */
 void srv(uint16_t port) {
     int sockfd, len;
     struct sockaddr_in servaddr, cli; 
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0); 
     if (sockfd == -1) { 
-        printf("socket creation failed...\n"); 
+        syslog(LOG_ERR, "socket creation failed...\n"); 
         exit(0); 
     } 
 
@@ -49,12 +73,12 @@ void srv(uint16_t port) {
     servaddr.sin_port = htons(port);
 
     if ((bind(sockfd, (struct sockaddr*)&servaddr, sizeof(servaddr))) != 0) { 
-        printf("socket bind failed...\n"); 
+        syslog(LOG_ERR, "socket bind failed...\n"); 
         exit(0); 
     } 
 
     if ((listen(sockfd, 5)) != 0) { 
-        printf("Listen failed...\n"); 
+        syslog(LOG_ERR, "Listen failed...\n"); 
         exit(0); 
     } 
 
@@ -66,7 +90,7 @@ void srv(uint16_t port) {
         int* connfd = (int*)malloc(sizeof(int));
         *connfd = accept(sockfd, (struct sockaddr*)&cli, (socklen_t * restrict)&len); 
         if (*connfd < 0) { 
-            printf("server accept failed...\n"); 
+            syslog(LOG_ERR, "server accept failed...\n"); 
             exit(0); 
         } 
         pthread_create(&requestHandlerThread, NULL, handleRequest, connfd);
@@ -76,13 +100,17 @@ void srv(uint16_t port) {
 }
 
 
-// cringe json moment [{\"time\": 1743857962, \"Temperature\": 24.0, \"humidity\": 50.0}]
+/**
+ * @brief Makes a json formated string from globalData gd
+ * 
+ * @return char* has to be freed by the caller
+ */
 char* makeJsonReply() {
-    printf("starting concate, allocating : %ld bytes\n", sizeof(char)*gd.data.size*100);
+    // printf("starting concate, allocating : %ld bytes\n", sizeof(char)*gd.data.size*100);
     char* reply = (char*)malloc(sizeof(char)*gd.data.size*100);
     char tmp[100];
     sprintf(reply, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n[");
-    printf("first line\n");
+    // printf("first line\n");
     for (size_t i = 0; i < gd.data.size; i++)
     {
         if(i == 0) sprintf(tmp, "{\"time\": %lu, \"Temperature\": %.1f, \"humidity\": %.1f},", gd.data.dataArray[i]->timestamp, gd.data.dataArray[i]->temperature, gd.data.dataArray[i]->humidity);

@@ -1,4 +1,4 @@
-NAME=test.run
+NAME=osprj.run
 CC=gcc
 CFLAGS= -Wall -Wextra -g
 LDFLAGS=
