@@ -1,6 +1,7 @@
 # System programming project for university
 
-This is a project requiered from OS programming labs as final exam
+This is a project requiered from OS programming labs as final exam  
+All code is self explaining
 
 ## Setup
 
@@ -15,7 +16,7 @@ sudo apt install libgpiod-dev gpiod gcc make git
 raspi-config
 ```
 
-- Ensure user has permission to access /dev/serial0 and /dev/i2c-1 or run as sudo
+- Ensure user has permission to access /dev/serial0 or /dev/tty0 and /dev/i2c-1 or run as sudo
 
 ## Usage
 
@@ -43,4 +44,4 @@ The documentation is available in docs/html/index.html
 ## Fixes
 
 - It might not close on ctrl+c after the 30 seconds because it waits for another API request, making a request to the API should unstuck it
-- bad json format if only 1 data is available
+- It was working in class but I couldn't test the aquisition of the sensor in the final version (don't have this sensor home)
