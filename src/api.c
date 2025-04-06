@@ -47,7 +47,6 @@ void* handleRequest(void* args) {
     free(response);
 
     close(*new_socket);
-    free(new_socket);
     pthread_exit(0);
     return NULL;
 }

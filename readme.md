@@ -39,3 +39,8 @@ Run the app :
 ## Documentation
 
 The documentation is available in docs/html/index.html
+
+## Fixes
+
+- It might not close on ctrl+c after the 30 seconds because it waits for another API request, making a request to the API should unstuck it
+- bad json format if only 1 data is available
